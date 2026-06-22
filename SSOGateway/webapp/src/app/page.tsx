@@ -4,51 +4,61 @@ import { motion } from "framer-motion";
 import { LogOut, LayoutDashboard, Brain, HardDrive, BarChart3, Music, ExternalLink, Globe, Store } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+// Use the server's LAN IP for internal services.
+// When accessed externally via Cloudflare, these will need to be
+// changed to their public URLs or handled via tunnel ingress rules.
+const SERVER_IP = "192.168.0.220";
+
 const APPS = [
   {
     name: "LocalGPT",
     description: "Private LLM interface",
-    path: "/localgpt",
+    path: `http://${SERVER_IP}:8084`,
     icon: Brain,
     color: "text-emerald-400",
     bg: "bg-emerald-500/10",
     border: "border-emerald-500/20",
+    external: true,
   },
   {
     name: "Dashboard Ubuntu",
     description: "System management panel",
-    path: "/dashboard",
+    path: `http://${SERVER_IP}:9091`,
     icon: LayoutDashboard,
     color: "text-orange-400",
     bg: "bg-orange-500/10",
     border: "border-orange-500/20",
+    external: true,
   },
   {
     name: "Portainer",
     description: "Docker container manager",
-    path: "/portainer",
+    path: `http://${SERVER_IP}:9000`,
     icon: HardDrive,
     color: "text-blue-400",
     bg: "bg-blue-500/10",
     border: "border-blue-500/20",
+    external: true,
   },
   {
     name: "Netdata",
     description: "Real-time metrics",
-    path: "/netdata",
+    path: `http://${SERVER_IP}:19999`,
     icon: BarChart3,
     color: "text-green-400",
     bg: "bg-green-500/10",
     border: "border-green-500/20",
+    external: true,
   },
   {
     name: "AudioSpace",
     description: "Audio control center",
-    path: "/audiospace",
+    path: `http://${SERVER_IP}:8082`,
     icon: Music,
     color: "text-purple-400",
     bg: "bg-purple-500/10",
     border: "border-purple-500/20",
+    external: true,
   },
   {
     name: "Jenny Dentista",
@@ -126,8 +136,8 @@ export default function Dashboard() {
             <motion.a
               key={app.name}
               href={app.path}
-              target={(app as any).external ? "_blank" : undefined}
-              rel={(app as any).external ? "noopener noreferrer" : undefined}
+              target="_blank"
+              rel="noopener noreferrer"
               variants={item}
               whileHover={{ y: -4, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

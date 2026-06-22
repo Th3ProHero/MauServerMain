@@ -21,11 +21,12 @@ export async function POST(req: Request) {
     // Create a JWT containing the session ID
     const token = await signToken({ sessionId });
 
-    // Return the response setting the HTTP-only cookie
+    const isHttps = req.headers.get("x-forwarded-proto") === "https" || req.url.startsWith("https://");
+
     const response = NextResponse.json({ success: true });
     response.cookies.set("sso_token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isHttps,
       sameSite: "lax",
       maxAge: 60 * 60 * 24, // 24 hours
       path: "/",

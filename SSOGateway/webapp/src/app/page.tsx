@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LogOut, LayoutDashboard, Brain, HardDrive, BarChart3, Music, ExternalLink } from "lucide-react";
+import { LogOut, LayoutDashboard, Brain, HardDrive, BarChart3, Music, ExternalLink, Globe, Store } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const APPS = [
@@ -49,6 +49,26 @@ const APPS = [
     color: "text-purple-400",
     bg: "bg-purple-500/10",
     border: "border-purple-500/20",
+  },
+  {
+    name: "Jenny Dentista",
+    description: "External Website",
+    path: "https://jennydentista.com/",
+    icon: Globe,
+    color: "text-pink-400",
+    bg: "bg-pink-500/10",
+    border: "border-pink-500/20",
+    external: true,
+  },
+  {
+    name: "Abarrotes Las Flores",
+    description: "External Website",
+    path: "https://abarroteslasflores.com/",
+    icon: Store,
+    color: "text-yellow-400",
+    bg: "bg-yellow-500/10",
+    border: "border-yellow-500/20",
+    external: true,
   },
 ];
 
@@ -106,6 +126,8 @@ export default function Dashboard() {
             <motion.a
               key={app.name}
               href={app.path}
+              target={(app as any).external ? "_blank" : undefined}
+              rel={(app as any).external ? "noopener noreferrer" : undefined}
               variants={item}
               whileHover={{ y: -4, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
